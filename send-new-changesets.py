@@ -12,7 +12,6 @@ from datadog_api_client.v2.models import *
 from pprint import pprint
 
 FILENAME = 'previous_max_changeset.pk'
-MAX_CHANGESET_DIFF = 300
 
 # Defining the host is optional and defaults to https://api.datadoghq.com
 # DD_SITE, DD_API_KEY, DD_APP_KEY are supported by default :
@@ -43,8 +42,6 @@ xml = ET.fromstring(response.text)
 """
 latest_changeset = int(xml[0].attrib['id'])
 last_run_changeset = 0
-
-print("The latest changeset is : " + str(latest_changeset))
 
 # load the last changeset from the last run
 if path.exists(FILENAME):

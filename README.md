@@ -15,5 +15,5 @@ This script relies on those env variables :
 - [x] log API calls are not optimized : for now doing one API call per changeset
 - [x] Need to leverage `<tag />` within the changeset
 - [ ] Add option to scope to a particular part of the word
-- [ ] Parse box to extract countries values to be able to use the [Geomap Widget](https://docs.datadoghq.com/dashboards/widgets/geomap/#configuration)
+- [ ] Parse box to extract countries values to be able to use the [Geomap Widget](https://docs.datadoghq.com/dashboards/widgets/geomap/#configuration). Idea : https://pypi.org/project/reverse_geocoder/
 - [ ] Use case :  need to be alerted when a bad changeset occurs (vandalism). Definition of a bad changeset : having a lot of deletion
