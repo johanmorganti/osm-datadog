@@ -44,50 +44,48 @@ last_run_changeset = 0
 
 print("The latest changeset is : " + str(latest_changeset))
 
+# load the last changeset from the last run
 if path.exists(FILENAME):
     with open(FILENAME, 'rb') as fi:
-        # load the last changeset 
         last_run_changeset = pickle.load(fi)
 
 print("Number of changesets to load : " + str(latest_changeset - last_run_changeset))
 
-with open(FILENAME, 'wb') as fi:
-    # dump lastest changeset for next runs
-    pickle.dump(latest_changeset, fi)
-
-for changeset in xml:
-    if int(changeset.attrib['id']) <= last_run_changeset:
-        print("Skipping " + changeset.attrib["id"])
-        continue
     
-    # Enter a context with an instance of the API client
-    with ApiClient(dd_configuration) as api_client:
-        # Create an instance of the API class
-        api_instance = logs_api.LogsApi(api_client)
-        body = HTTPLog([
-            HTTPLogItem(
+# Enter a context with an instance of the API client
+with ApiClient(dd_configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = logs_api.LogsApi(api_client)
+
+    list_logs = []
+
+    for changeset in xml:
+        if int(changeset.attrib['id']) <= last_run_changeset:
+            print("Skipping " + changeset.attrib["id"])
+            continue
+        
+        new_log_item = HTTPLogItem(
                 ddsource="python",
                 ddtags="env:staging",
                 hostname="test-osm",
                 service="osm-to-datadog",
                 message= str(changeset.attrib),
-            ),
-            # HTTPLogItem(
-            #     ddsource="python",
-            #     ddtags="env:staging",
-            #     hostname="test-osm",
-            #     service="osm-to-datadog-2",
-            #     message= str(changeset.attrib),
-            # ),
-        ]) 
-        try:
-            # Send logs
-            api_response = api_instance.submit_log(body)
-            pprint(api_response)
-        except ApiException as e:
-            print("Exception when calling LogsApi->submit_log: %s\n" % e)
+            )
+        
+        list_logs.append(new_log_item) 
+    
+    body = HTTPLog(list_logs)
 
+    try:
+        # Send logs
+        api_response = api_instance.submit_log(body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling LogsApi->submit_log: %s\n" % e)
 
+# dump lastest changeset for next runs
+with open(FILENAME, 'wb') as fi:
+    pickle.dump(latest_changeset, fi)
 
 
 
