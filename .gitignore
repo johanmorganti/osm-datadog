@@ -1,1 +1,4 @@
 env
+
+# file that save state between runs 
+previous_max_changeset.pk 
