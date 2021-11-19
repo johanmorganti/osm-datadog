@@ -2,6 +2,8 @@ import requests
 import xml.etree.ElementTree as ET
 from os import path
 import pickle
+import json
+from io import StringIO
 
 from dateutil.parser import parse as dateutil_parser
 from datadog_api_client.v2 import ApiClient, ApiException, Configuration
@@ -51,6 +53,9 @@ if path.exists(FILENAME):
 
 print("Number of changesets to load : " + str(latest_changeset - last_run_changeset))
 
+# dump lastest changeset for next runs
+with open(FILENAME, 'wb') as fi:
+    pickle.dump(latest_changeset, fi)
     
 # Enter a context with an instance of the API client
 with ApiClient(dd_configuration) as api_client:
@@ -61,31 +66,38 @@ with ApiClient(dd_configuration) as api_client:
 
     for changeset in xml:
         if int(changeset.attrib['id']) <= last_run_changeset:
-            print("Skipping " + changeset.attrib["id"])
+            # print("Already processed. Skipping " + changeset.attrib["id"])
             continue
         
+        json_log = {}
+        for attribute in changeset.attrib:
+            if attribute in ["id", "changes_count", "comments_count", "uid"]:
+                json_log["changeset." + attribute] = int(changeset.attrib[attribute])
+            else :
+                json_log["changeset." + attribute] = str(changeset.attrib[attribute])
+
+        for tag in changeset:
+            json_log["changeset." + tag.attrib["k"]] = tag.attrib["v"]
+
         new_log_item = HTTPLogItem(
                 ddsource="python",
                 ddtags="env:staging",
                 hostname="test-osm",
                 service="osm-to-datadog",
-                message= str(changeset.attrib),
+                message= json.dumps(json_log),
             )
         
-        list_logs.append(new_log_item) 
+        list_logs.append(new_log_item)
     
     body = HTTPLog(list_logs)
 
     try:
         # Send logs
-        api_response = api_instance.submit_log(body)
+        api_response = api_instance.submit_log(list_logs)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling LogsApi->submit_log: %s\n" % e)
 
-# dump lastest changeset for next runs
-with open(FILENAME, 'wb') as fi:
-    pickle.dump(latest_changeset, fi)
 
 
 

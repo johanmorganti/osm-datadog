@@ -13,7 +13,7 @@ This script relies on those env variables :
 - [x] Send the 100 most recents changesets to Datadog
 - [x] Prevent sending duplicates
 - [x] log API calls are not optimized : for now doing one API call per changeset
-- [ ] Need to leverage `<tag />` within the changeset
+- [x] Need to leverage `<tag />` within the changeset
 - [ ] Add option to scope to a particular part of the word
 - [ ] Parse box to extract countries values to be able to use the [Geomap Widget](https://docs.datadoghq.com/dashboards/widgets/geomap/#configuration)
 - [ ] Use case :  need to be alerted when a bad changeset occurs (vandalism). Definition of a bad changeset : having a lot of deletion
