@@ -3,16 +3,16 @@ Monitoring OpenStreetMap with Datadog
 
 ## Setup
 
-This script relies on those env variable : 
-- DD_SITE (defaults to "datadoghq.com")
-- DD_API_KEY 
-- DD_APP_KEY
+This script relies on those env variables : 
+- DD_API_KEY (mandatory)
+- DD_APP_KEY (mandatory)
+- DD_SITE (optional, defaults to "datadoghq.com")
 
 ## TODO
 
 [x] Send the 100 most recents changesets to Datadog
 [x] Prevent sending duplicates
-[ ] log API calls are not optimized : for now doing one API call per changeset
+[x] log API calls are not optimized : for now doing one API call per changeset
 [ ] Need to leverage `<tag />` within the changeset
 [ ] Add option to scope to a particular part of the word
 [ ] Parse box to extract countries values to be able to use the [Geomap Widget](https://docs.datadoghq.com/dashboards/widgets/geomap/#configuration)
