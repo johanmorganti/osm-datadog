@@ -1,6 +1,6 @@
 import requests
 import xml.etree.ElementTree as ET
-from os import kill, path
+from os import path
 import pickle
 import json
 from io import StringIO
@@ -10,6 +10,8 @@ from datadog_api_client.v2 import ApiClient, ApiException, Configuration
 from datadog_api_client.v2.api import logs_api
 from datadog_api_client.v2.models import *
 from pprint import pprint
+
+import reverse_geocoder
 
 FILENAME = 'previous_max_changeset.pk'
 
@@ -56,6 +58,14 @@ def send_logs(list_logs):
         except ApiException as e:
             print("Exception when calling LogsApi->submit_log: %s\n" % e)
 
+def get_more_info_from_coordinates(min_lat, min_lon, max_lat, max_lon):
+    # For now, let's only take the center of the rectangle
+    
+    avg_lat = (float(min_lat) + float(max_lat)) / 2 
+    avg_lon = (float(min_lon) + float(max_lon)) / 2
+    
+    return reverse_geocoder.search([(avg_lat,avg_lon)],mode=1)[0]
+
 def main():
     xml_last_cs = get_last_changesets()
 
@@ -72,7 +82,7 @@ def main():
     list_logs = []
 
     for changeset in xml_last_cs:
-        if int(changeset.attrib['id']) <= last_run_cs_number:
+        if int(changeset.attrib["id"]) <= last_run_cs_number:
             # print("Already processed. Skipping " + changeset.attrib["id"])
             continue
         
@@ -86,6 +96,15 @@ def main():
         for tag in changeset:
             json_log["changeset." + tag.attrib["k"]] = tag.attrib["v"]
 
+
+        if "min_lat" in changeset.attrib:
+            json_log["geo"] = get_more_info_from_coordinates(
+                changeset.attrib["min_lat"], 
+                changeset.attrib["min_lon"], 
+                changeset.attrib["max_lat"], 
+                changeset.attrib["max_lon"])
+
+        
         new_log_item = HTTPLogItem(
                 ddsource="python",
                 ddtags="env:staging",
@@ -101,7 +120,7 @@ def main():
     # dump lastest changeset for next runs
     with open(FILENAME, 'wb') as fi:
         pickle.dump(latest_changeset, fi)
-        
+
 
 if __name__ == '__main__':
     main()
