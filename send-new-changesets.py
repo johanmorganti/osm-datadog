@@ -1,9 +1,10 @@
+from itertools import count
 import requests
 import xml.etree.ElementTree as ET
 from os import path
 import pickle
 import json
-from io import StringIO
+import os
 
 from dateutil.parser import parse as dateutil_parser
 from datadog_api_client.v2 import ApiClient, ApiException, Configuration
@@ -13,7 +14,8 @@ from pprint import pprint
 
 import reverse_geocoder
 
-FILENAME = 'previous_max_changeset.pk'
+FILENAME = "previous_max_changeset.pk"
+list_tags = os.environ.get("DD_TAGS")
 
 def get_last_changesets():
     ## Based on the latest version of OSM API : https://wiki.openstreetmap.org/wiki/API_v0.6
@@ -70,22 +72,33 @@ def main():
     xml_last_cs = get_last_changesets()
 
     latest_changeset = int(xml_last_cs[0].attrib['id'])
-
+    last_run_cs_number = 0
     # load the last changeset from the last run
     if path.exists(FILENAME):
-        last_run_cs_number = 0
         with open(FILENAME, 'rb') as fi:
             last_run_cs_number = pickle.load(fi)
 
-    print("Number of changesets to load : " + str(latest_changeset - last_run_cs_number))
-
     list_logs = []
+    list_changeset_processed = []
+    list_changeset_skipped = []
+    
+    intro_message = "Number of changesets to load : " + str(latest_changeset - last_run_cs_number) + ". From " + str(last_run_cs_number) + " to " + str(latest_changeset) 
+    log_intro_message = HTTPLogItem(
+                ddsource="python",
+                ddtags=list_tags,
+                hostname="test-osm",
+                service="osm-to-datadog-debug",
+                message= intro_message,
+            )
+    list_logs.append(log_intro_message)
+    print(intro_message)
 
     for changeset in xml_last_cs:
-        if int(changeset.attrib["id"]) <= last_run_cs_number:
-            # print("Already processed. Skipping " + changeset.attrib["id"])
+        changeset_id = int(changeset.attrib["id"])
+        if changeset_id <= last_run_cs_number:
+            list_changeset_skipped.append(changeset_id)
             continue
-        
+
         json_log = {}
         for attribute in changeset.attrib:
             if attribute in ["id", "changes_count", "comments_count", "uid"]:
@@ -107,13 +120,26 @@ def main():
         
         new_log_item = HTTPLogItem(
                 ddsource="python",
-                ddtags="env:staging",
+                ddtags=list_tags,
                 hostname="test-osm",
                 service="osm-to-datadog",
                 message= json.dumps(json_log),
             )
         
         list_logs.append(new_log_item)
+        list_changeset_processed.append(changeset_id)
+    
+    outro_message = "Successfully sent " + str(len(list_changeset_processed)) + " changesets.\n"
+    outro_message = outro_message + "List of skipped changeset : " + str(list_changeset_skipped) + " .\n"
+    outro_message = outro_message + "List of processed changset : " + str(list_changeset_processed) + " ."
+    log_outro_message = HTTPLogItem(
+                ddsource="python",
+                ddtags=list_tags,
+                hostname="test-osm",
+                service="osm-to-datadog-debug",
+                message=outro_message,
+            )
+    list_logs.append(log_outro_message)
 
     send_logs(list_logs)
         
@@ -121,6 +147,7 @@ def main():
     with open(FILENAME, 'wb') as fi:
         pickle.dump(latest_changeset, fi)
 
+    print(outro_message)
 
 if __name__ == '__main__':
     main()
