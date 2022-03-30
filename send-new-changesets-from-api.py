@@ -1,4 +1,5 @@
-from itertools import count
+from osmUtils import *
+
 import requests
 import xml.etree.ElementTree as ET
 from os import path
@@ -6,13 +7,7 @@ import pickle
 import json
 import os
 
-from dateutil.parser import parse as dateutil_parser
-from datadog_api_client.v2 import ApiClient, ApiException, Configuration
-from datadog_api_client.v2.api import logs_api
 from datadog_api_client.v2.models import *
-from pprint import pprint
-
-import reverse_geocoder
 
 FILENAME = "previous_max_changeset.pk"
 list_tags = os.environ.get("DD_TAGS")
@@ -42,32 +37,6 @@ def get_last_changesets():
     """
     return xml
 
-def send_logs(list_logs):
-    # Defining the host is optional and defaults to https://api.datadoghq.com
-    # DD_SITE, DD_API_KEY, DD_APP_KEY are supported by default :
-    # https://github.com/DataDog/datadog-api-client-python/blob/master/src/datadog_api_client/v2/configuration.py
-    dd_configuration = Configuration()
-
-    # Enter a context with an instance of the API client
-    with ApiClient(dd_configuration) as api_client:
-        # Create an instance of the API class
-        api_instance = logs_api.LogsApi(api_client)
-
-        try:
-            # Send logs
-            api_response = api_instance.submit_log(list_logs)
-            pprint(api_response)
-        except ApiException as e:
-            print("Exception when calling LogsApi->submit_log: %s\n" % e)
-
-def get_more_info_from_coordinates(min_lat, min_lon, max_lat, max_lon):
-    # For now, let's only take the center of the rectangle
-    
-    avg_lat = (float(min_lat) + float(max_lat)) / 2 
-    avg_lon = (float(min_lon) + float(max_lon)) / 2
-    
-    return reverse_geocoder.search([(avg_lat,avg_lon)],mode=1)[0]
-
 def main():
     xml_last_cs = get_last_changesets()
 
@@ -91,7 +60,6 @@ def main():
                 message= intro_message,
             )
     list_logs.append(log_intro_message)
-    print(intro_message)
 
     for changeset in xml_last_cs:
         changeset_id = int(changeset.attrib["id"])
@@ -99,31 +67,14 @@ def main():
             list_changeset_skipped.append(changeset_id)
             continue
 
-        json_log = {}
-        for attribute in changeset.attrib:
-            if attribute in ["id", "changes_count", "comments_count", "uid"]:
-                json_log["changeset." + attribute] = int(changeset.attrib[attribute])
-            else :
-                json_log["changeset." + attribute] = str(changeset.attrib[attribute])
+        changeset_json = json_from_xml_changeset(changeset)
 
-        for tag in changeset:
-            json_log["changeset." + tag.attrib["k"]] = tag.attrib["v"]
-
-
-        if "min_lat" in changeset.attrib:
-            json_log["geo"] = get_more_info_from_coordinates(
-                changeset.attrib["min_lat"], 
-                changeset.attrib["min_lon"], 
-                changeset.attrib["max_lat"], 
-                changeset.attrib["max_lon"])
-
-        
         new_log_item = HTTPLogItem(
                 ddsource="python",
                 ddtags=list_tags,
                 hostname="test-osm",
                 service="osm-to-datadog",
-                message= json.dumps(json_log),
+                message= json.dumps(changeset_json),
             )
         
         list_logs.append(new_log_item)
