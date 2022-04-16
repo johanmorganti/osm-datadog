@@ -11,7 +11,6 @@ import json
 from osmUtils import *
 
 FILENAME = "previous_sequence.pk"
-list_tags = os.environ.get("DD_TAGS")
 
 def process_sequence(sequence_number):
     sequence_number_adjusted = str(sequence_number).rjust(9, "0")
@@ -46,13 +45,7 @@ def main():
 
     for sequence_number in range(last_sequence_processed +1, last_sequence_available +1 ):
         for changeset in process_sequence(sequence_number):
-            list_logs.append(HTTPLogItem(
-                ddsource="python",
-                ddtags=list_tags,
-                hostname="test-osm",
-                service="osm-to-datadog",
-                message= json.dumps(changeset),
-            ))
+            list_logs.append(create_log(json.dumps(changeset)))
 
     send_logs(list_logs)
 

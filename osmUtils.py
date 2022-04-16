@@ -1,3 +1,4 @@
+import os
 import reverse_geocoder
 
 from datadog_api_client.v2 import ApiClient, ApiException, Configuration
@@ -34,6 +35,14 @@ def json_from_xml_changeset(changeset):
 
     return json_log
 
+def create_log(message, source="python",list_tags=os.environ.get("DD_TAGS"),hostmame="test-osm",service="osm-to-datadog"):
+    return HTTPLogItem(
+            ddsource=source,
+            ddtags=list_tags,
+            hostname=hostmame,
+            service=service,
+            message=message,
+        )
 
 def send_logs(list_logs):
     # Defining the host is optional and defaults to https://api.datadoghq.com

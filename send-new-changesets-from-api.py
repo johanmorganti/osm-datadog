@@ -10,7 +10,6 @@ import os
 from datadog_api_client.v2.models import *
 
 FILENAME = "previous_max_changeset.pk"
-list_tags = os.environ.get("DD_TAGS")
 
 def get_last_changesets():
     ## Based on the latest version of OSM API : https://wiki.openstreetmap.org/wiki/API_v0.6
@@ -52,14 +51,7 @@ def main():
     list_changeset_skipped = []
     
     intro_message = "Number of changesets to load : " + str(latest_changeset - last_run_cs_number) + ". From " + str(last_run_cs_number) + " to " + str(latest_changeset) 
-    log_intro_message = HTTPLogItem(
-                ddsource="python",
-                ddtags=list_tags,
-                hostname="test-osm",
-                service="osm-to-datadog-debug",
-                message= intro_message,
-            )
-    list_logs.append(log_intro_message)
+    list_logs.append(create_log(intro_message, service="osm-to-datadog-debug"))
 
     for changeset in xml_last_cs:
         changeset_id = int(changeset.attrib["id"])
@@ -68,29 +60,15 @@ def main():
             continue
 
         json_changeset = json_from_xml_changeset(changeset)
-
-        new_log_item = HTTPLogItem(
-                ddsource="python",
-                ddtags=list_tags,
-                hostname="test-osm",
-                service="osm-to-datadog",
-                message= json.dumps(json_changeset),
-            )
         
-        list_logs.append(new_log_item)
+        list_logs.append(create_log(json.dumps(json_changeset)))
         list_changeset_processed.append(changeset_id)
     
     outro_message = "Successfully sent " + str(len(list_changeset_processed)) + " changesets.\n"
     outro_message = outro_message + "List of skipped changeset : " + str(list_changeset_skipped) + " .\n"
     outro_message = outro_message + "List of processed changset : " + str(list_changeset_processed) + " ."
-    log_outro_message = HTTPLogItem(
-                ddsource="python",
-                ddtags=list_tags,
-                hostname="test-osm",
-                service="osm-to-datadog-debug",
-                message=outro_message,
-            )
-    list_logs.append(log_outro_message)
+
+    list_logs.append(create_log(outro_message,service="osm-to-datadog-debug"))
 
     send_logs(list_logs)
         
