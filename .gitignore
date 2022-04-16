@@ -1,5 +1,6 @@
 env
 __pycache__
+.DS_Store
 
-# file that save state between runs 
-previous_max_changeset.pk 
+# files that save state between runs 
+*.pk 

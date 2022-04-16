@@ -22,6 +22,7 @@ Run this script every 15 to 30 seconds.
 - [x] Need to leverage `<tag />` within the changeset
 - [x] Parse box to extract countries values to be able to use the [Geomap Widget](https://docs.datadoghq.com/dashboards/widgets/geomap/#configuration). Idea : https://pypi.org/project/reverse_geocoder/
 - [x] Clean editors (solution done on Datadog side, "editor family" created)
+- [ ] add log creation to the utilities
 - [ ] Clean imageries
 - [ ] Share Datadog pipelines
 - [ ] Use case :  need to be alerted when a bad changeset occurs (vandalism). First need definition of a bad changeset : having a lot of deletion?

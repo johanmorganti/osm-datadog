@@ -5,6 +5,7 @@ idna==3.3
 JSON-log-formatter==0.4.0
 numpy==1.21.4
 python-dateutil==2.8.2
+PyYAML==6.0
 requests==2.26.0
 reverse-geocoder==1.5.1
 scipy==1.7.3
