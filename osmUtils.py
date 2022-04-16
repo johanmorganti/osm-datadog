@@ -23,8 +23,12 @@ def json_from_xml_changeset(changeset):
             json_log["changeset." + attribute] = str(changeset.attrib[attribute])
                 
     for element in changeset:
-        if 'k' in element.attrib: 
-            json_log["changeset." + element.attrib["k"]] = element.attrib["v"]
+        if 'k' in element.attrib:
+            if "imagery_used" in element.attrib["k"]:
+                json_log["changeset." + element.attrib["k"]] = element.attrib["v"]
+                json_log["changeset.imagery_used_clean"] = element.attrib["v"].split(";")
+            else:
+                json_log["changeset." + element.attrib["k"]] = element.attrib["v"]
 
     if "min_lat" in changeset.attrib:
         json_log["geo"] = get_more_info_from_coordinates(
