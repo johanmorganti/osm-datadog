@@ -67,14 +67,14 @@ def main():
             list_changeset_skipped.append(changeset_id)
             continue
 
-        changeset_json = json_from_xml_changeset(changeset)
+        json_changeset = json_from_xml_changeset(changeset)
 
         new_log_item = HTTPLogItem(
                 ddsource="python",
                 ddtags=list_tags,
                 hostname="test-osm",
                 service="osm-to-datadog",
-                message= json.dumps(changeset_json),
+                message= json.dumps(json_changeset),
             )
         
         list_logs.append(new_log_item)
