@@ -13,7 +13,7 @@ from osmUtils import *
 FILENAME = "previous_sequence.pk"
 
 def process_sequence(sequence_number):
-    sequence_number_adjusted = str(sequence_number).rjust(9, "0")
+    sequence_number_adjusted = str(sequence_number + 1).rjust(9, "0")
     url_sequence = "https://planet.osm.org/replication/changesets/" + sequence_number_adjusted[0:3] + "/" + sequence_number_adjusted[3:6] + "/" + sequence_number_adjusted[6:9] + ".osm.gz"
     print(url_sequence)
     request_sequence = requests.get(url_sequence, stream=True)
