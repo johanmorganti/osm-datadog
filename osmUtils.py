@@ -17,8 +17,12 @@ def json_from_xml_changeset(changeset):
     json_log = {}
 
     for attribute in changeset.attrib:
-        if attribute in ["id", "changes_count", "comments_count", "uid"]:
-            json_log["changeset." + attribute] = int(changeset.attrib[attribute])
+        if attribute in ["id", "changes_count", "comments_count", "uid", "num_changes"]:
+            if attribute == "num_changes":
+                json_log["changeset." + attribute] = int(changeset.attrib[attribute])
+                json_log["changeset.changes_count"] = int(changeset.attrib[attribute])
+            else:
+                json_log["changeset." + attribute] = int(changeset.attrib[attribute])
         else :
             json_log["changeset." + attribute] = str(changeset.attrib[attribute])
                 
