@@ -25,8 +25,7 @@ def json_from_xml_changeset(changeset):
     for element in changeset:
         if 'k' in element.attrib:
             if "imagery_used" in element.attrib["k"]:
-                json_log["changeset." + element.attrib["k"]] = element.attrib["v"]
-                json_log["changeset.imagery_used_clean"] = element.attrib["v"].split(";")
+                json_log["changeset." + element.attrib["k"]] = element.attrib["v"].split(";")
             else:
                 json_log["changeset." + element.attrib["k"]] = element.attrib["v"]
 
