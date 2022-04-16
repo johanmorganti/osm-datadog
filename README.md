@@ -25,3 +25,5 @@ Run this script every 15 to 30 seconds.
 - [ ] Clean imageries
 - [ ] Share Datadog pipelines
 - [ ] Use case :  need to be alerted when a bad changeset occurs (vandalism). First need definition of a bad changeset : having a lot of deletion?
+- [ ] How to prevent counting some changeset multiple times?
+        - Some changeset have a discussion, so they might be pushed to the replica at each discussion update : example with changeset `118161820` in `https://planet.osm.org/replication/changesets/004/878/999.osm.gz`
