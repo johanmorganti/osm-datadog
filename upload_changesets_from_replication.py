@@ -27,6 +27,8 @@ def process_sequence(sequence_number):
     return list_changesets
 
 def main():
+    print("Starting")
+
     # Get last sequence available
     request_state = requests.get("https://planet.osm.org/replication/changesets/state.yaml", stream=True)
     planet_state = yaml.load(request_state.raw.read(),Loader=yaml.FullLoader)
@@ -42,16 +44,26 @@ def main():
         last_sequence_processed = planet_state["sequence"] - 1
 
     list_logs = []
+    number_sequences = 0
 
     for sequence_number in range(last_sequence_processed +1, last_sequence_available +1 ):
+        number_changesets = 0
         for changeset in process_sequence(sequence_number):
             list_logs.append(create_log(json.dumps(changeset)))
+            number_changesets = number_changesets +1
+
+        list_logs.append(create_log(str(number_changesets) + " changesets in sequence " + str(sequence_number),service="osm-to-datadog-debug"))
+        number_sequences = number_sequences +1
+
+    list_logs.append(create_log("Processed " + str(number_sequences) + " sequences.",service="osm-to-datadog-debug"))
 
     send_logs(list_logs)
 
     # dump lastest sequence for next runs
     with open(FILENAME, 'wb') as fi:
         pickle.dump(last_sequence_available, fi)
+
+    print("Done\n")
 
 if __name__ == '__main__':
     main()

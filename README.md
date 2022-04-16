@@ -24,6 +24,7 @@ Run this script every 15 to 30 seconds.
 - [x] Clean editors (solution done on Datadog side, "editor family" created)
 - [x] add log creation to the utilities
 - [x] Clean imageries
+- [ ] Add some try / catches with better logging
 - [ ] Share Datadog pipelines
 - [ ] Use case :  need to be alerted when a bad changeset occurs (vandalism). First need definition of a bad changeset : having a lot of deletion?
 - [ ] How to prevent counting some changeset multiple times?
