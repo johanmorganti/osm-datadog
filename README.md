@@ -1,7 +1,7 @@
 # osm-datadog
 Monitoring OpenStreetMap with Datadog
 
-[The work in progress can be seen as this URL](https://p.datadoghq.com/sb/14e968020-4993928572d9d3e0dcdbe9a12a42499a)
+[The work in progress can be seen as this URL](https://osm-monitor.com)
 
 ![Main Dashboard](./screenshots/main_dashboard.png)
 
@@ -13,6 +13,13 @@ This script relies on those env variables :
 - DD_SITE (optional, defaults to "datadoghq.com")
 
 Run this script every 15 to 30 seconds.
+
+## Demo
+
+I have iframed the Datadog dashboard in a more readable domain name here :
+
+* https://osm-monitor.com
+
 
 ## TODO
 
@@ -29,3 +36,7 @@ Run this script every 15 to 30 seconds.
 - [ ] Use case :  need to be alerted when a bad changeset occurs (vandalism). First need definition of a bad changeset : having a lot of deletion?
 - [ ] How to prevent counting some changeset multiple times?
         - Some changeset have a discussion, so they might be pushed to the replica at each discussion update : example with changeset `118161820` in `https://planet.osm.org/replication/changesets/004/878/999.osm.gz`
+
+## Contact
+
+If you have any questions / feedback / ideas, feel free to open an issue or ping me at `osm-monitor@johan.sh`
