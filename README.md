@@ -3,7 +3,7 @@ Monitoring OpenStreetMap with Datadog
 
 [The work in progress can be seen as this URL](https://p.datadoghq.com/sb/14e968020-4993928572d9d3e0dcdbe9a12a42499a)
 
-![Main Dashboard](./screenshots/main_dashboard.jpeg)
+![Main Dashboard](./screenshots/main_dashboard.png)
 
 ## Setup
 
