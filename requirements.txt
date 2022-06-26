@@ -3,7 +3,7 @@ charset-normalizer==2.0.7
 datadog-api-client==1.6.0
 idna==3.3
 JSON-log-formatter==0.4.0
-numpy==1.21.4
+numpy==1.22.0
 python-dateutil==2.8.2
 PyYAML==6.0
 requests==2.26.0
