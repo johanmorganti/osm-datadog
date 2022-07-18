@@ -23,8 +23,9 @@ I have iframed the Datadog dashboard in a more readable domain name here :
 
 ## TODO
 
-<details>
+
 <summary>Previous TODO list</summary>
+<details>
 <br>
 
 - [x] Send the 100 most recents changesets to Datadog
@@ -41,13 +42,10 @@ I have iframed the Datadog dashboard in a more readable domain name here :
 - [ ] How to prevent counting some changeset multiple times?
         - Some changeset have a discussion, so they might be pushed to the replica at each discussion update : example with changeset `118161820` in `https://planet.osm.org/replication/changesets/004/878/999.osm.gz`
         
-        
 </details>
-
 ---
 
-TODO has been moved to my personnal website for easier tracking :
-* https://johan.sh/OpenStreetMap-Monitor-8b3dc7e548de406ab910e051ba6a17f1
+TODO was moved to issues : https://github.com/johanmorganti/osm-datadog/issues
 
 ## Contact
 
