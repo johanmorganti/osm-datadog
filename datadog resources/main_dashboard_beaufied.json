@@ -24,7 +24,7 @@
             "queries": [
               {
                 "search": {
-                  "query": "$env $country $editor $imagery $language $changeset.user"
+                  "query": "$env $country $editor $imagery $language $changeset.user $editor_family @changeset.comments_count:<1"
                 },
                 "data_source": "logs",
                 "compute": {
@@ -83,16 +83,18 @@
       }
     },
     {
-      "id": 7785573120627054,
+      "id": 6460431979053090,
       "definition": {
-        "type": "image",
-        "url": "https://wiki.openstreetmap.org/w/images/5/58/QR_code.svg",
-        "sizing": "contain",
-        "margin": "md",
-        "has_background": true,
-        "has_border": false,
-        "vertical_align": "center",
-        "horizontal_align": "center"
+        "type": "note",
+        "content": "## Source code\n\nhttps://github.com/johanmorganti/osm-datadog ",
+        "background_color": "white",
+        "font_size": "12",
+        "text_align": "left",
+        "vertical_align": "top",
+        "show_tick": false,
+        "tick_pos": "50%",
+        "tick_edge": "left",
+        "has_padding": true
       },
       "layout": {
         "x": 10,
@@ -135,7 +137,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -163,7 +165,7 @@
           {
             "id": 23334434137252,
             "definition": {
-              "title": "Change in number of users editing countries (TOP 25)",
+              "title": "Change in number of users editing countries VS past day (TOP 25)",
               "title_size": "16",
               "title_align": "left",
               "type": "change",
@@ -186,7 +188,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -248,7 +250,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -279,7 +281,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -320,7 +322,7 @@
             "id": 6970269093804636,
             "definition": {
               "type": "note",
-              "content": "### Editor Breakdown\n\n➡️ [Detailed editor info here](https://p.datadoghq.com/sb/14e968020-89f83da16192af111138ae3bee7d40f0) ⬅️",
+              "content": "### Editor Breakdown\n\n➡️ [Detailed editor info here](https://osm-monitor.com/editors) ⬅️",
               "background_color": "purple",
               "font_size": "16",
               "text_align": "left",
@@ -401,7 +403,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -455,7 +457,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -509,7 +511,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -568,7 +570,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -641,7 +643,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -714,7 +716,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -793,11 +795,18 @@
                       "formula": "query1"
                     }
                   ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "palette": "white_on_green",
+                      "value": 0
+                    }
+                  ],
                   "response_format": "scalar",
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -810,13 +819,6 @@
                       ],
                       "group_by": []
                     }
-                  ],
-                  "conditional_formats": [
-                    {
-                      "comparator": ">",
-                      "palette": "white_on_green",
-                      "value": 0
-                    }
                   ]
                 }
               ],
@@ -826,139 +828,38 @@
             "layout": {
               "x": 0,
               "y": 0,
-              "width": 2,
+              "width": 3,
               "height": 2
             }
           },
           {
-            "id": 7238824324788074,
+            "id": 3608003398502596,
             "definition": {
-              "title": "Avg/Max/Min number of changes per changeset (Y-axis in log)",
+              "title": "Top editors by object changed",
               "title_size": "16",
               "title_align": "left",
-              "show_legend": true,
-              "legend_layout": "auto",
-              "legend_columns": [
-                "value",
-                "sum"
-              ],
-              "type": "timeseries",
+              "type": "toplist",
               "requests": [
                 {
                   "formulas": [
                     {
-                      "alias": "AVG",
-                      "formula": "query1"
-                    },
-                    {
-                      "alias": "MIN",
-                      "formula": "query2"
-                    },
-                    {
-                      "alias": "MAX",
-                      "formula": "query3"
+                      "formula": "query1",
+                      "limit": {
+                        "count": 500,
+                        "order": "desc"
+                      }
                     }
                   ],
-                  "response_format": "timeseries",
+                  "response_format": "scalar",
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $changeset.user $language $imagery $editor $country $env $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
                         "metric": "@changeset.changes_count",
-                        "aggregation": "avg"
-                      },
-                      "name": "query1",
-                      "indexes": [
-                        "*"
-                      ],
-                      "group_by": []
-                    },
-                    {
-                      "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
-                      },
-                      "data_source": "logs",
-                      "compute": {
-                        "metric": "@changeset.changes_count",
-                        "aggregation": "min"
-                      },
-                      "name": "query2",
-                      "indexes": [
-                        "*"
-                      ],
-                      "group_by": []
-                    },
-                    {
-                      "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
-                      },
-                      "data_source": "logs",
-                      "compute": {
-                        "metric": "@changeset.changes_count",
-                        "aggregation": "max"
-                      },
-                      "name": "query3",
-                      "indexes": [
-                        "*"
-                      ],
-                      "group_by": []
-                    }
-                  ],
-                  "style": {
-                    "palette": "dog_classic",
-                    "line_type": "solid",
-                    "line_width": "normal"
-                  },
-                  "display_type": "line"
-                }
-              ],
-              "yaxis": {
-                "include_zero": false,
-                "scale": "log"
-              },
-              "markers": []
-            },
-            "layout": {
-              "x": 2,
-              "y": 0,
-              "width": 2,
-              "height": 4
-            }
-          },
-          {
-            "id": 5278398702589112,
-            "definition": {
-              "title": "Total number of object changes by user",
-              "title_size": "16",
-              "title_align": "left",
-              "show_legend": true,
-              "legend_layout": "auto",
-              "legend_columns": [
-                "value",
-                "sum"
-              ],
-              "type": "timeseries",
-              "requests": [
-                {
-                  "formulas": [
-                    {
-                      "alias": "AVG",
-                      "formula": "query1"
-                    }
-                  ],
-                  "response_format": "timeseries",
-                  "queries": [
-                    {
-                      "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
-                      },
-                      "data_source": "logs",
-                      "compute": {
-                        "metric": "@changeset.changes_count",
-                        "aggregation": "avg"
+                        "aggregation": "sum"
                       },
                       "name": "query1",
                       "indexes": [
@@ -966,34 +867,103 @@
                       ],
                       "group_by": [
                         {
-                          "facet": "@changeset.user",
+                          "facet": "@changeset.created_by_family",
                           "sort": {
                             "metric": "@changeset.changes_count",
-                            "aggregation": "avg",
+                            "aggregation": "sum",
+                            "order": "desc"
+                          },
+                          "limit": 500
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": {
+              "x": 3,
+              "y": 0,
+              "width": 3,
+              "height": 4
+            }
+          },
+          {
+            "id": 2147111649824706,
+            "definition": {
+              "title": "Top ratio object changed / changeset by editor",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "toplist",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query2 / query1",
+                      "limit": {
+                        "count": 100,
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "search": {
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $editor_family $language $changeset.user"
+                      },
+                      "data_source": "logs",
+                      "compute": {
+                        "metric": "@changeset.changes_count",
+                        "aggregation": "sum"
+                      },
+                      "name": "query2",
+                      "indexes": [
+                        "*"
+                      ],
+                      "group_by": [
+                        {
+                          "facet": "@changeset.created_by_family",
+                          "sort": {
+                            "metric": "@changeset.changes_count",
+                            "aggregation": "sum",
+                            "order": "desc"
+                          },
+                          "limit": 100
+                        }
+                      ]
+                    },
+                    {
+                      "search": {
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $editor_family $language $changeset.user"
+                      },
+                      "data_source": "logs",
+                      "compute": {
+                        "aggregation": "count"
+                      },
+                      "name": "query1",
+                      "indexes": [
+                        "*"
+                      ],
+                      "group_by": [
+                        {
+                          "facet": "@changeset.created_by_family",
+                          "sort": {
+                            "aggregation": "count",
                             "order": "desc"
                           },
                           "limit": 100
                         }
                       ]
                     }
-                  ],
-                  "style": {
-                    "palette": "dog_classic",
-                    "line_type": "solid",
-                    "line_width": "normal"
-                  },
-                  "display_type": "bars"
+                  ]
                 }
-              ],
-              "yaxis": {
-                "include_zero": false
-              },
-              "markers": []
+              ]
             },
             "layout": {
-              "x": 4,
+              "x": 6,
               "y": 0,
-              "width": 4,
+              "width": 3,
               "height": 4
             }
           },
@@ -1019,7 +989,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $changeset.user $language $imagery $editor $country $env"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $changeset.user $language $imagery $editor $country $env $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -1047,65 +1017,9 @@
               ]
             },
             "layout": {
-              "x": 8,
+              "x": 9,
               "y": 0,
-              "width": 2,
-              "height": 4
-            }
-          },
-          {
-            "id": 3608003398502596,
-            "definition": {
-              "title": "Top editors by object changed",
-              "title_size": "16",
-              "title_align": "left",
-              "type": "toplist",
-              "requests": [
-                {
-                  "formulas": [
-                    {
-                      "formula": "query1",
-                      "limit": {
-                        "count": 500,
-                        "order": "desc"
-                      }
-                    }
-                  ],
-                  "response_format": "scalar",
-                  "queries": [
-                    {
-                      "search": {
-                        "query": "service:osm-to-datadog $changeset.user $language $imagery $editor $country $env"
-                      },
-                      "data_source": "logs",
-                      "compute": {
-                        "metric": "@changeset.changes_count",
-                        "aggregation": "sum"
-                      },
-                      "name": "query1",
-                      "indexes": [
-                        "*"
-                      ],
-                      "group_by": [
-                        {
-                          "facet": "@changeset.created_by",
-                          "sort": {
-                            "metric": "@changeset.changes_count",
-                            "aggregation": "sum",
-                            "order": "desc"
-                          },
-                          "limit": 500
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "layout": {
-              "x": 10,
-              "y": 0,
-              "width": 2,
+              "width": 3,
               "height": 4
             }
           },
@@ -1127,7 +1041,7 @@
                   "queries": [
                     {
                       "search": {
-                        "query": "service:osm-to-datadog $env $country $editor $imagery $language $changeset.user"
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $language $changeset.user $editor_family"
                       },
                       "data_source": "logs",
                       "compute": {
@@ -1149,8 +1063,142 @@
             "layout": {
               "x": 0,
               "y": 2,
-              "width": 2,
+              "width": 3,
               "height": 2
+            }
+          },
+          {
+            "id": 5278398702589112,
+            "definition": {
+              "title": "Number of objects changed by editor",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "auto",
+              "legend_columns": [
+                "value",
+                "sum"
+              ],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "",
+                      "formula": "query2"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "search": {
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $imagery $editor_family $language $changeset.user"
+                      },
+                      "data_source": "logs",
+                      "compute": {
+                        "metric": "@changeset.changes_count",
+                        "aggregation": "avg"
+                      },
+                      "name": "query2",
+                      "indexes": [
+                        "*"
+                      ],
+                      "group_by": [
+                        {
+                          "facet": "@changeset.created_by_family",
+                          "sort": {
+                            "metric": "@changeset.changes_count",
+                            "aggregation": "avg",
+                            "order": "desc"
+                          },
+                          "limit": 10
+                        }
+                      ]
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "bars"
+                }
+              ],
+              "yaxis": {
+                "include_zero": false,
+                "scale": "sqrt"
+              }
+            },
+            "layout": {
+              "x": 0,
+              "y": 4,
+              "width": 8,
+              "height": 4
+            }
+          },
+          {
+            "id": 1205025635313768,
+            "definition": {
+              "title": "Top 30 changeset per number of change",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_table",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query2",
+                      "limit": {
+                        "count": 900,
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "search": {
+                        "query": "service:osm-to-datadog @changeset.comments_count:<1 $env $country $editor $editor_family $imagery $language $changeset.user"
+                      },
+                      "data_source": "logs",
+                      "compute": {
+                        "metric": "@changeset.changes_count",
+                        "aggregation": "avg"
+                      },
+                      "name": "query2",
+                      "indexes": [
+                        "*"
+                      ],
+                      "group_by": [
+                        {
+                          "facet": "@changeset.id",
+                          "sort": {
+                            "metric": "@changeset.changes_count",
+                            "aggregation": "avg",
+                            "order": "desc"
+                          },
+                          "limit": 30
+                        },
+                        {
+                          "facet": "@changeset.user",
+                          "sort": {
+                            "metric": "@changeset.changes_count",
+                            "aggregation": "avg",
+                            "order": "desc"
+                          },
+                          "limit": 30
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": {
+              "x": 8,
+              "y": 4,
+              "width": 4,
+              "height": 4
             }
           }
         ]
@@ -1159,7 +1207,8 @@
         "x": 0,
         "y": 15,
         "width": 12,
-        "height": 5
+        "height": 9,
+        "is_column_break": true
       }
     }
   ],
@@ -1180,6 +1229,12 @@
       "name": "editor",
       "default": "*",
       "prefix": "@changeset.created_by",
+      "available_values": []
+    },
+    {
+      "name": "editor_family",
+      "default": "*",
+      "prefix": "@changeset.created_by_family",
       "available_values": []
     },
     {
