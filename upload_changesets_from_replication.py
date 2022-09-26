@@ -42,8 +42,11 @@ def main():
         with open(FILENAME, 'rb') as fi:
             last_sequence_processed = pickle.load(fi)
     else:
-        # For the first run, send only the last sequence available
-        last_sequence_processed = last_sequence_available
+        # For the first run, process only the last sequence available if no start sequence has been provided
+        if "SEQUENCE_START" in os.environ:
+            last_sequence_processed = int(os.environ.get("SEQUENCE_START"))
+        else:
+            last_sequence_processed = last_sequence_available
 
     list_logs = []
     number_sequences = 0
