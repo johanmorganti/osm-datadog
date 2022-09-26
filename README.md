@@ -11,8 +11,9 @@ This script relies on those env variables :
 - DD_API_KEY (mandatory)
 - DD_TAGS (recommended), should a string of comma separated values (ex : `"env:staging,version:5.1"`)
 - DD_SITE (optional, defaults to "datadoghq.com")
+- SEQUENCE_START = Starting sequence number
 
-Run this script every 15 to 30 seconds.
+Run `upload_changesets_from_replication.py` with those environement variables from a terminal or use a container using the `Dockerfile` provided (no public image).
 
 ## Demo
 
