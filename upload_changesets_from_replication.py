@@ -1,7 +1,6 @@
 from os import path
-import os
 import pickle
-from platform import java_ver
+from time import sleep
 import requests
 import gzip
 import xml.etree.ElementTree as ET
@@ -11,12 +10,15 @@ import json
 from osmUtils import *
 
 FILENAME = "previous_sequence.pk"
+SLEEP_SECONDS = 15
 
 def process_sequence(sequence_number):
-    sequence_number_adjusted = str(sequence_number + 1).rjust(9, "0")
-    url_sequence = "https://planet.osm.org/replication/changesets/" + sequence_number_adjusted[0:3] + "/" + sequence_number_adjusted[3:6] + "/" + sequence_number_adjusted[6:9] + ".osm.gz"
-    print(url_sequence)
-    request_sequence = requests.get(url_sequence, stream=True)
+    sequence_number_adjusted = str(sequence_number).rjust(9, "0")
+    sequence_url = "https://planet.osm.org/replication/changesets/" + sequence_number_adjusted[0:3] + "/" + sequence_number_adjusted[3:6] + "/" + sequence_number_adjusted[6:9] + ".osm.gz"
+    try:
+        request_sequence = requests.get(sequence_url, stream=True)
+    except:
+        print("Error trying to fetch sequence : " + sequence_url)
     xml_sequence = ET.fromstring(gzip.decompress(request_sequence.raw.read()))
 
     list_changesets = []
@@ -41,12 +43,12 @@ def main():
             last_sequence_processed = pickle.load(fi)
     else:
         # For the first run, send only the last sequence available
-        last_sequence_processed = planet_state["sequence"] - 1
+        last_sequence_processed = last_sequence_available
 
     list_logs = []
     number_sequences = 0
 
-    for sequence_number in range(last_sequence_processed +1, last_sequence_available +1 ):
+    for sequence_number in range(last_sequence_processed, last_sequence_available):
         number_changesets = 0
         for changeset in process_sequence(sequence_number):
             list_logs.append(create_log(json.dumps(changeset)))
@@ -63,7 +65,12 @@ def main():
     with open(FILENAME, 'wb') as fi:
         pickle.dump(last_sequence_available, fi)
 
-    print("Done\n")
+    print("Done, processsed {} sequences.\n".format(number_sequences))
 
 if __name__ == '__main__':
-    main()
+    while(True):
+        try:
+            main()
+            sleep(SLEEP_SECONDS)
+        except Exception as e:
+            print("Error trying to process Sequence: ", e)
