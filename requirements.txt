@@ -10,4 +10,4 @@ requests==2.26.0
 reverse-geocoder==1.5.1
 scipy==1.7.3
 six==1.16.0
-urllib3==1.26.7
+urllib3==2.6.0
