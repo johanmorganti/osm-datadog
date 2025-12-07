@@ -1,7 +1,7 @@
 certifi==2024.7.4
 charset-normalizer==2.0.7
 datadog-api-client==1.6.0
-idna==3.3
+idna==3.7
 JSON-log-formatter==0.4.0
 numpy==1.22.0
 python-dateutil==2.8.2
