@@ -6,7 +6,7 @@ JSON-log-formatter==0.4.0
 numpy==1.22.0
 python-dateutil==2.8.2
 PyYAML==6.0
-requests==2.26.0
+requests==2.32.4
 reverse-geocoder==1.5.1
 scipy==1.7.3
 six==1.16.0
